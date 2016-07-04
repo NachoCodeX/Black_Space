@@ -20,18 +20,22 @@ public class Juego extends Canvas implements Runnable {
 	private static volatile boolean enJuego;
 	private Thread hilo;
 	private static Handler handler;
-	private int numEnemigos;
+	public static int numEnemigos;
 	public static boolean alienMeta = false;
 	private Random rand = new Random(System.nanoTime());
 	public static int enemigosEliminados = 0;
 	public static int score;
 	private static GAMESTATE STATE;
 	private Menu menu;
+	private ControladorDeEnemigos enemigos;
 
 	private static int FPSSCREEN = 0;
 
 	public Juego() {
+		enemigos = new ControladorDeEnemigos();
 		numEnemigos = 6;
+		ControladorDeEnemigos.crearEnemigos(numEnemigos);
+
 		score = 0;
 		STATE = GAMESTATE.MENU;
 		enJuego = true;
@@ -42,7 +46,7 @@ public class Juego extends Canvas implements Runnable {
 
 		handler = new Handler();
 		handler.addObject(new Nave(Juego.ANCHO / 2, Juego.ALTO - 100, ID.Nave, handler));
-		handler.crearAliens(numEnemigos);
+		// handler.crearAliens(numEnemigos);
 
 		menu = new Menu();
 
@@ -107,7 +111,7 @@ public class Juego extends Canvas implements Runnable {
 			// Muestra el marcador
 			g.setColor(Color.YELLOW);
 			g.drawString("Score: " + score, 10, 50);
-
+			enemigos.render(g);
 			handler.render(g);
 		} else if (STATE.equals(GAMESTATE.MENU)) {
 
@@ -125,11 +129,12 @@ public class Juego extends Canvas implements Runnable {
 	private void update() {
 		if (STATE.equals(GAMESTATE.JUEGO)) {
 			handler.update();
+			enemigos.update();
+			if (numEnemigos <= 0) {
+				numEnemigos = (int) (Math.random() * 8) + 1;
+				ControladorDeEnemigos.crearEnemigos(numEnemigos);
+				System.out.println("ENTRE");
 
-			if (enemigosEliminados == numEnemigos) {
-				numEnemigos = rand.nextInt(10) + 2;
-				handler.crearAliens(numEnemigos);
-				enemigosEliminados = 0;
 			}
 		} else if (STATE.equals(GAMESTATE.MENU)) {
 			menu.update();
@@ -147,9 +152,8 @@ public class Juego extends Canvas implements Runnable {
 	public static void reiniciar() {
 		Nave.SALUD = 100;
 		score = 0;
-		enemigosEliminados = 6;
-
-		handler.limpiarNivel();
+		ControladorDeEnemigos.limpiarNivel();
+		numEnemigos = 0;
 
 	}
 
@@ -161,7 +165,7 @@ public class Juego extends Canvas implements Runnable {
 		final int NS_POR_SEG = 1000000000;
 
 		// Numero de Actualizaciones que queremos.
-		final double APS = 60.0;
+		final double APS = 80.0;
 
 		// Cuantos nano-segundos pasan en 60 actualizaciones
 		final double NS_POR_A = NS_POR_SEG / APS;

@@ -31,7 +31,8 @@ public class Aliens extends Entity {
 
 		this.setVelY(velocidad);
 
-		this.y += this.getVelY();
+		this.setY(this.getY() + this.getVelY());
+
 		if (Juego.score >= 50) {
 			moviemientoLados();
 		}
@@ -39,8 +40,16 @@ public class Aliens extends Entity {
 			this.setY(-20);
 			int xTemp = (int) (Math.random() * (Juego.ANCHO - 100)) + 20;
 			this.setX(xTemp);
-			// limites();
+			verificarSalud();
+			System.out.println(Nave.SALUD);
 
+		}
+	}
+
+	private void verificarSalud() {
+		Nave.SALUD -= 2;
+		if (Nave.SALUD <= 0) {
+			Juego.cambiarEstado(GAMESTATE.GAMEOVER);
 		}
 	}
 
@@ -81,16 +90,5 @@ public class Aliens extends Entity {
 		}
 
 	}
-
-	// private void limites() {
-	// if (this.getX() <= 0) {
-	// this.setX(20);
-	// System.out.println("DESBORDADO 1");
-	// } else if (this.getX() >= Juego.ANCHO) {
-	// this.setX(Juego.ANCHO - 40);
-	// System.out.println("DESBORDADO 2");
-	// }
-	//
-	// }
 
 }

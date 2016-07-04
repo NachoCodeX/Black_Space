@@ -95,16 +95,18 @@ public class Nave extends Entity {
 	}
 
 	private void collision() {
-		for (int i = 0; i < handler.objects.size(); i++) {
-			Entity enemigoTemp = handler.objects.get(i);
+		for (int i = 0; i < ControladorDeEnemigos.aliens.size(); i++) {
+			Aliens enemigoTemp = ControladorDeEnemigos.aliens.get(i);
+
 			if (enemigoTemp.getId() == ID.Enemigos) {
 
 				if (getBounds().intersects(enemigoTemp.getBounds()) && !enemigoTemp.isEnColision()) {
 					enemigoTemp.setEnColision(true);
 					SALUD -= 10;
-
+					System.out.println(SALUD);
 					if (SALUD <= 0) {
 						Juego.cambiarEstado(GAMESTATE.GAMEOVER);
+						System.out.println("ENTRE");
 					}
 
 				} else if (!getBounds().intersects(enemigoTemp.getBounds())) {
@@ -116,8 +118,8 @@ public class Nave extends Entity {
 
 	private void bulletCollision() {
 
-		for (int i = 0; i < handler.objects.size(); i++) {
-			Entity tempObject = handler.objects.get(i);
+		for (int i = 0; i < ControladorDeEnemigos.aliens.size(); i++) {
+			Aliens tempObject = ControladorDeEnemigos.aliens.get(i);
 
 			if (tempObject.getId() == ID.Enemigos) {
 
@@ -125,7 +127,13 @@ public class Nave extends Entity {
 					GameObject balaTemp = proyectiles.objBalas.get(j);
 
 					if (tempObject.getBounds().intersects(balaTemp.getBounds())) {
-						handler.removeObject(tempObject);
+						ControladorDeEnemigos.removerAlien(tempObject);
+						Juego.numEnemigos--;
+
+						int num = (int) (Math.random() * 2) + 0;
+						Juego.numEnemigos += num;
+						// System.out.println(num);
+						ControladorDeEnemigos.crearEnemigos(num);
 						proyectiles.removeBullet(balaTemp);
 						Juego.score++;
 						Juego.enemigosEliminados++;
