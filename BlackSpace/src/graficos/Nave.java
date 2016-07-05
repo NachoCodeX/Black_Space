@@ -7,12 +7,12 @@ import java.awt.image.BufferedImage;
 public class Nave extends Entity {
 
 	private static final String NOMBRE = "Nave";
-	private Proyectiles proyectiles;
-	private Handler handler;
-	private Texturas textura;
-	private BufferedImage texturaDeNave;
+	private Proyectiles proyectiles = null;
+	private Handler handler = null;
+	private Texturas textura = null;
+	private BufferedImage texturaDeNave = null;
 	private static final int W = 64, H = 64;
-	private BarraDeSalud healthBar;
+	private BarraDeSalud healthBar = null;
 	public static int SALUD;
 
 	public Nave(int x, int y, ID id, Handler handler) {
@@ -104,15 +104,27 @@ public class Nave extends Entity {
 					enemigoTemp.setEnColision(true);
 					SALUD -= 10;
 					System.out.println(SALUD);
+
 					if (SALUD <= 0) {
 						Juego.cambiarEstado(GAMESTATE.GAMEOVER);
-						System.out.println("ENTRE");
+					} else if (SALUD <= 50) {
+						handler.addObject(new BonusVida(100, -10));
 					}
 
 				} else if (!getBounds().intersects(enemigoTemp.getBounds())) {
 					enemigoTemp.setEnColision(false);
 				}
 			}
+		}
+
+		for (int i = 0; i < handler.objectBonus.size(); i++) {
+			BonusVida tempBonus = (BonusVida) handler.objectBonus.get(i);
+
+			if (getBounds().intersects(tempBonus.getBounds())) {
+				SALUD += (int) (Math.random() * 10) + 5;
+				handler.removeObject(tempBonus);
+			}
+
 		}
 	}
 

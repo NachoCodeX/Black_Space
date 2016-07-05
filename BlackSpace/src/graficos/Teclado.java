@@ -4,7 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Teclado extends KeyAdapter {
-	private Handler handler;
+	private Handler handler = null;
 	private GAMESTATE STATE = Juego.obtenerEstadoActual();
 
 	public Teclado(Handler handler) {

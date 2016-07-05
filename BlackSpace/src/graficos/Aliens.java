@@ -18,6 +18,7 @@ public class Aliens extends Entity {
 		super(x, y, id);
 		init();
 		this.velocidad = rand.nextInt(5) + 1;
+		this.setVelY(velocidad);
 	}
 
 	private void init() {
@@ -28,26 +29,23 @@ public class Aliens extends Entity {
 
 	@Override
 	public void update() {
-
-		this.setVelY(velocidad);
-
 		this.setY(this.getY() + this.getVelY());
 
-		if (Juego.score >= 50) {
+		if (Juego.score >= 50)
 			moviemientoLados();
-		}
+
 		if (y >= Juego.ALTO) {
 			this.setY(-20);
 			int xTemp = (int) (Math.random() * (Juego.ANCHO - 100)) + 20;
 			this.setX(xTemp);
 			verificarSalud();
-			System.out.println(Nave.SALUD);
 
 		}
 	}
 
 	private void verificarSalud() {
-		Nave.SALUD -= 2;
+		Nave.SALUD -= 1;
+		Juego.score--;
 		if (Nave.SALUD <= 0) {
 			Juego.cambiarEstado(GAMESTATE.GAMEOVER);
 		}
@@ -56,8 +54,6 @@ public class Aliens extends Entity {
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(texturaDeAlien, x, y, null);
-		// g.setColor(Color.GREEN);
-		// g.drawRect(this.x, this.y, getBounds().width, getBounds().height);
 	}
 
 	public Rectangle getBounds() {
@@ -67,26 +63,22 @@ public class Aliens extends Entity {
 	}
 
 	public void moviemientoLados() {
-		int direccion = 0;
 
-		if (direccion == 0) {
-			if (aux == 0) {
-				this.x += this.velocidad;
+		if (aux == 0) {
+			this.x += this.velocidad;
 
-				if (this.x >= Juego.ANCHO - 50) {
-					this.setX(Juego.ANCHO - 60);
-					aux = 1;
+			if (this.x >= Juego.ANCHO - 50) {
+				this.setX(Juego.ANCHO - 60);
+				aux = 1;
 
-				}
-			} else if (aux == 1) {
-				System.out.println(":d");
-				this.x -= this.velocidad;
-				if (this.x <= 0) {
-					this.setX(10);
-					aux = 0;
-				}
 			}
-
+		} else if (aux == 1) {
+			System.out.println(":d");
+			this.x -= this.velocidad;
+			if (this.x <= 0) {
+				this.setX(10);
+				aux = 0;
+			}
 		}
 
 	}

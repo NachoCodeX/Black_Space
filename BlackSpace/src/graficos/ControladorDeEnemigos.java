@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class ControladorDeEnemigos {
-	protected static ArrayList<Aliens> aliens;
+	protected static ArrayList<Aliens> aliens = null;
 
 	public ControladorDeEnemigos() {
 		aliens = new ArrayList<Aliens>();

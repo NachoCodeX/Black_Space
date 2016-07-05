@@ -8,7 +8,7 @@ import java.awt.Rectangle;
 
 public class GameOver {
 
-	private Rectangle rectContinuar, rectSalir;
+	private Rectangle rectContinuar = null, rectSalir = null;
 
 	public GameOver() {
 		rectContinuar = new Rectangle(100, 200, 100, 50);

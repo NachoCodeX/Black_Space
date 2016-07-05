@@ -8,8 +8,8 @@ import java.awt.Rectangle;
 import java.util.Random;
 
 public class Menu {
-	private Font fuenteTitulo;
-	private Font fuenteNormal;
+	private Font fuenteTitulo = null;
+	private Font fuenteNormal = null;
 	private Color[] color = { Color.DARK_GRAY, Color.gray, Color.white };
 	private Random rand = new Random(System.nanoTime());
 	private int colorAzar;

@@ -9,7 +9,7 @@ public class Bala extends GameObject {
 	private static final String path = "bala";
 
 	private BufferedImage texturaDeBala;
-	private Texturas textura;
+	private Texturas textura = null;
 	private static int W = 16, H = 16;
 
 	public Bala(int x, int y) {
@@ -35,9 +35,7 @@ public class Bala extends GameObject {
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(texturaDeBala, this.getX(), this.getY(), null);
-		// g.setColor(Color.BLUE);
-		// g.drawRect(getBounds().x, getBounds().y, getBounds().width,
-		// getBounds().height);
+
 	}
 
 }

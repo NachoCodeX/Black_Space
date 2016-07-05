@@ -46,6 +46,7 @@ public class Juego extends Canvas implements Runnable {
 
 		handler = new Handler();
 		handler.addObject(new Nave(Juego.ANCHO / 2, Juego.ALTO - 100, ID.Nave, handler));
+
 		// handler.crearAliens(numEnemigos);
 
 		menu = new Menu();
@@ -136,6 +137,7 @@ public class Juego extends Canvas implements Runnable {
 				System.out.println("ENTRE");
 
 			}
+
 		} else if (STATE.equals(GAMESTATE.MENU)) {
 			menu.update();
 		}
@@ -165,7 +167,7 @@ public class Juego extends Canvas implements Runnable {
 		final int NS_POR_SEG = 1000000000;
 
 		// Numero de Actualizaciones que queremos.
-		final double APS = 80.0;
+		final double APS = 60.0;
 
 		// Cuantos nano-segundos pasan en 60 actualizaciones
 		final double NS_POR_A = NS_POR_SEG / APS;
